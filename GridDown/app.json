@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "GridDown",
+    "slug": "griddown",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "backgroundColor": "#0D0F0A",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0D0F0A"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.griddown.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "GridDown uses your GPS coordinates to display your location on the offline map and compass.",
+        "NSLocationAlwaysUsageDescription": "GridDown uses your GPS coordinates for navigation."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0D0F0A"
+      },
+      "package": "com.griddown.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "READ_EXTERNAL_STORAGE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-sqlite",
+      "expo-asset",
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "GridDown uses GPS for navigation and offline mapping."
+        }
+      ]
+    ]
+  }
+}

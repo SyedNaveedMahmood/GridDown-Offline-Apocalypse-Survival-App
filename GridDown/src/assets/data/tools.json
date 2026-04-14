@@ -1,0 +1,237 @@
+{
+  "_source": "FM 21-76 U.S. Army Survival Manual (public domain). Data compiled for GridDown offline reference.",
+  "knots": [
+    {
+      "id": "bowline",
+      "name": "Bowline",
+      "use": "Creates a fixed loop that will not slip. Ideal rescue loop — the 'king of knots'.",
+      "strength": "High. Does not weaken rope significantly.",
+      "steps": [
+        "Form a small loop in the standing part of the rope, leaving enough tail for your desired loop size.",
+        "Pass the working end up through the small loop from below.",
+        "Take the working end around the standing part (behind and around).",
+        "Pass the working end back down through the small loop.",
+        "Tighten by pulling standing part while holding working end and loop."
+      ],
+      "warning": null,
+      "source": "The Ashley Book of Knots #1010. FM 21-76."
+    },
+    {
+      "id": "clove_hitch",
+      "name": "Clove Hitch",
+      "use": "Quick attachment to a post or tree. Starting and finishing lashings. Good for adjustable tension.",
+      "strength": "Moderate. Can slip under variable load — add half hitches for security.",
+      "steps": [
+        "Pass rope over post and cross over itself.",
+        "Pass rope over post again, slightly to the right of first wrap.",
+        "Tuck working end under the second wrap (the cross).",
+        "Pull both ends to tighten."
+      ],
+      "warning": "Can slip under alternating load. Secure with two half hitches if load direction will vary.",
+      "source": "Ashley Book of Knots #1245. FM 21-76."
+    },
+    {
+      "id": "sheet_bend",
+      "name": "Sheet Bend",
+      "use": "Joining two ropes of different diameter. The standard knot for joining dissimilar ropes.",
+      "strength": "Good for joining ropes. Stronger than square knot for different diameters.",
+      "steps": [
+        "Form a bight (bend) in the thicker rope.",
+        "Pass the thinner rope up through the bight from below.",
+        "Take the thin rope around behind both ends of the thick rope's bight.",
+        "Tuck thin rope under itself where it exits the bight.",
+        "Pull both ropes to tighten."
+      ],
+      "warning": "Use double sheet bend for very different rope diameters — pass thin rope around twice before tucking.",
+      "source": "Ashley Book of Knots #1431."
+    },
+    {
+      "id": "square_knot",
+      "name": "Square Knot (Reef Knot)",
+      "use": "Binding bandages and packages. Joining two ropes of equal diameter under non-critical loads.",
+      "strength": "Low for critical loads. Not suitable for joining ropes under significant tension — use sheet bend.",
+      "steps": [
+        "Take two rope ends. Pass the left end over and under the right end (first half knot).",
+        "Now pass the end that is on the RIGHT over and under the end on the LEFT (second half knot).",
+        "A correct square knot: the two loops lie parallel. Left over right, then right over left.",
+        "Pull to tighten."
+      ],
+      "warning": "REMEMBER: Left over right, then right over left. If you do left-left or right-right you tie a granny knot which slips. Square knot is for bandages — NOT for joining ropes under load.",
+      "source": "Ashley Book of Knots #74. FM 21-76 for bandaging."
+    },
+    {
+      "id": "taut_line_hitch",
+      "name": "Taut-Line Hitch",
+      "use": "Adjustable hitch for tent guy lines, tarps, lashing. Grips under load but slides when pressure released.",
+      "strength": "Good when loaded in correct direction.",
+      "steps": [
+        "Pass rope around anchor (stake or tree).",
+        "Make two wraps around the standing part inside the loop.",
+        "Add one wrap outside and above the two wraps.",
+        "Tuck working end through to complete.",
+        "Slide knot to adjust tension — grips when pulled along standing part."
+      ],
+      "warning": "Only grips in one direction. Ensure load pulls knot toward anchor, not away.",
+      "source": "Ashley Book of Knots #1800 (variant). FM 21-76."
+    },
+    {
+      "id": "trucker_hitch",
+      "name": "Trucker's Hitch",
+      "use": "Mechanical advantage 3:1 to cinch loads extremely tight. Lashing gear, securing tarps under load.",
+      "strength": "Extremely strong when properly tied. Creates mechanical advantage.",
+      "steps": [
+        "Tie anchor point at one end of load.",
+        "In the middle of the rope, make a slipped loop (overhand loop with a bight, not the end).",
+        "Thread working end around anchor at far end of load.",
+        "Thread working end back up through the slipped loop.",
+        "Pull down on working end to tighten — 3:1 mechanical advantage.",
+        "Lock with two half hitches through the slipped loop."
+      ],
+      "warning": "The slipped loop is critical — it must be a loop through which you thread the rope, not a simple bend.",
+      "source": "Ashley Book of Knots. FM 21-76 lashing techniques."
+    },
+    {
+      "id": "prusik",
+      "name": "Prusik Hitch",
+      "use": "Ascending a rope. Creating a friction hitch for rope rescue and rappel backup. Load-bearing slide-and-grip.",
+      "strength": "Grips firmly under load. Slides when unloaded.",
+      "steps": [
+        "Requires a prusik loop (short cord of smaller diameter than main rope, tied into loop with double fisherman).",
+        "Drape loop over main rope.",
+        "Pass loop around main rope and through itself two more times (total 3 wraps).",
+        "Dress wraps neatly — all wraps must lie parallel and not overlap.",
+        "Attach carabiner to loop below wraps.",
+        "To ascend: weight carabiner to grip. To slide: lift hitch with free hand to slide upward."
+      ],
+      "warning": "Prusik cord must be 60-75% diameter of main rope. Will not grip if diameters too similar or too different. Must dress wraps neatly.",
+      "source": "Karl Prusik, 1931 (public domain technique). Standard mountaineering reference."
+    },
+    {
+      "id": "figure_eight",
+      "name": "Figure-Eight",
+      "use": "Stopper knot to prevent rope running through a belay device. Also tied as a loop for anchoring.",
+      "strength": "Excellent. Easy to inspect and untie after loading.",
+      "steps": [
+        "Make a loop in rope. Pass working end around and through the loop to make a figure-eight shape.",
+        "Pull working end to tighten into a figure-eight pattern.",
+        "For figure-eight on a bight: double the rope, then tie figure-eight with both strands."
+      ],
+      "warning": null,
+      "source": "Ashley Book of Knots #570."
+    },
+    {
+      "id": "double_fisherman",
+      "name": "Double Fisherman's",
+      "use": "Joining two rope ends to form a prusik loop. Joining two ropes for rappelling. Extremely secure join.",
+      "strength": "Very high. Nearly impossible to untie after loading.",
+      "steps": [
+        "Place two rope ends parallel, pointing in opposite directions.",
+        "Take one end and wrap it twice around both ropes, then pass back through both wraps.",
+        "On the other end of rope, do the same wrap in opposite direction (two wraps, thread through).",
+        "Slide both knots together by pulling the standing parts.",
+        "Finished knot: two X patterns side by side."
+      ],
+      "warning": "Extremely difficult to untie after loading — consider it permanent. Use overhand bend for retrievable join.",
+      "source": "Standard mountaineering reference."
+    },
+    {
+      "id": "alpine_butterfly",
+      "name": "Alpine Butterfly",
+      "use": "Fixed loop in middle of rope without access to ends. For isolating damaged rope section. Attaching to middle of rope.",
+      "strength": "Excellent in all directions, including inline pull. Can be untied after loading.",
+      "steps": [
+        "Wrap rope around palm twice to make two loops.",
+        "Take upper (closer to wrist) loop and fold it over the lower loop.",
+        "Take that same loop and fold it under all the strands, then up through the middle gap.",
+        "Pull loop to tighten while dressing the knot.",
+        "Result: a fixed loop projecting from the middle of the rope."
+      ],
+      "warning": null,
+      "source": "Ashley Book of Knots #1053."
+    },
+    {
+      "id": "round_two_half_hitches",
+      "name": "Round Turn and Two Half Hitches",
+      "use": "Secure attachment to post, ring, or tree. Resists rolling and variable load direction.",
+      "strength": "Good. More secure than clove hitch under variable load.",
+      "steps": [
+        "Pass rope completely around the anchor twice (the 'round turn').",
+        "Take working end and make a half hitch around standing part.",
+        "Make a second half hitch below the first.",
+        "Pull to tighten."
+      ],
+      "warning": null,
+      "source": "Ashley Book of Knots #1720. FM 21-76."
+    },
+    {
+      "id": "bowline_on_bight",
+      "name": "Bowline on a Bight",
+      "use": "Two fixed loops in middle of rope without access to ends. For body harness, rescue operations, rigging.",
+      "strength": "High. Two separate load-bearing loops.",
+      "steps": [
+        "Double the rope to form a bight. Work with the doubled rope as if it were a single rope.",
+        "Form a loop in the doubled rope.",
+        "Pass bight end up through the loop.",
+        "Open the bight end wide and flip it back over the entire knot.",
+        "Slide bight back up to seat under the loop.",
+        "Pull all four strands to dress and tighten."
+      ],
+      "warning": "Practice this before you need it. The step of opening and flipping the bight is unintuitive.",
+      "source": "Ashley Book of Knots #1080. FM 21-76 rescue rigging."
+    }
+  ],
+  "fire_lay_types": [
+    {
+      "name": "Teepee",
+      "description": "Tinder ball in center. Small kindling leaned around it in cone shape. Medium fuel leaned around that. Good ignition pattern — fire naturally falls inward feeding itself.",
+      "best_for": "Quick fire starting, cooking, signal fire",
+      "source": "FM 21-76 Ch.7"
+    },
+    {
+      "name": "Log Cabin",
+      "description": "Place two large logs parallel. Lay tinder/kindling between. Stack smaller logs perpendicular on top, building up in log-cabin pattern. Long burning.",
+      "best_for": "Long burn, warmth through night, cooking platform",
+      "source": "FM 21-76 Ch.7"
+    },
+    {
+      "name": "Star Fire",
+      "description": "Five or more logs radiating from center like spokes of wheel. Push inward as they burn. Requires minimal wood splitting.",
+      "best_for": "Long burning, minimal effort maintenance",
+      "source": "FM 21-76 Ch.7"
+    },
+    {
+      "name": "Long Fire",
+      "description": "Two large logs placed parallel about shoulder width apart. Build and maintain fire between them. Logs act as cooking surface supports and wind breaks.",
+      "best_for": "Cooking over fire trench, wind exposed sites",
+      "source": "FM 21-76 Ch.7"
+    },
+    {
+      "name": "Dakota Hole",
+      "description": "Dig two connected holes about 1 foot apart and 1 foot deep. Fire in main hole, second hole provides oxygen draft. Near-invisible fire, wind resistant.",
+      "best_for": "Tactical concealment, windy conditions, fuel-efficient cooking",
+      "source": "FM 21-76 Ch.7. Tom Brown Jr. Field Guide to Wilderness Survival."
+    }
+  ],
+  "signal_ground_to_air": [
+    {"symbol": "V", "meaning": "Require assistance"},
+    {"symbol": "X", "meaning": "Require medical assistance"},
+    {"symbol": "→", "meaning": "Proceeding in this direction"},
+    {"symbol": "↑", "meaning": "Proceeding in this direction (arrow)"},
+    {"symbol": "LL", "meaning": "All is well"},
+    {"symbol": "F", "meaning": "Need food and water"},
+    {"symbol": "N", "meaning": "No / Negative"},
+    {"symbol": "Y", "meaning": "Yes / Affirmative"},
+    {"symbol": "△", "meaning": "Safe to land here (clear ground with no obstacles)"}
+  ],
+  "morse_code": {
+    "A": ".-",   "B": "-...", "C": "-.-.", "D": "-..",  "E": ".",
+    "F": "..-.", "G": "--.",  "H": "....", "I": "..",   "J": ".---",
+    "K": "-.-",  "L": ".-..", "M": "--",   "N": "-.",   "O": "---",
+    "P": ".--.", "Q": "--.-", "R": ".-.",  "S": "...",  "T": "-",
+    "U": "..-",  "V": "...-", "W": ".--",  "X": "-..-", "Y": "-.--",
+    "Z": "--..",
+    "1": ".----", "2": "..---", "3": "...--", "4": "....-", "5": ".....",
+    "6": "-....", "7": "--...", "8": "---..", "9": "----.", "0": "-----",
+    "SOS": "...---..."
+  }
+}
