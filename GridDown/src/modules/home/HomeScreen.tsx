@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Barometer } from 'expo-sensors';
+import SunCalc from 'suncalc';
 import { getRecentlyViewed, getFavorites, searchPlants, RecentItem } from '../../db/database';
 import { useAppStore } from '../../store/useAppStore';
 import { Colors } from '../../theme/colors';
@@ -35,6 +36,12 @@ const QUICK_ACTIONS = [
   { label: 'FIRE', desc: 'Starting fire', icon: '🔥', tab: 'Tools' },
 ];
 
+function formatTime(date: Date): string {
+  const h = date.getHours().toString().padStart(2, '0');
+  const m = date.getMinutes().toString().padStart(2, '0');
+  return `${h}:${m}`;
+}
+
 export function HomeScreen() {
   const nav = useNavigation<any>();
   const { gpsCoords, gpsAcquired, dbReady } = useAppStore();
@@ -44,6 +51,12 @@ export function HomeScreen() {
   const [wikiDownloaded, setWikiDownloaded] = useState(false);
   const [plantCount, setPlantCount] = useState(0);
   const season = getSeason();
+
+  const sunTimes = gpsCoords
+    ? SunCalc.getTimes(new Date(), gpsCoords.lat, gpsCoords.lng)
+    : null;
+  const sunriseStr = sunTimes ? formatTime(sunTimes.sunrise) : '--:--';
+  const sunsetStr = sunTimes ? formatTime(sunTimes.sunset) : '--:--';
 
   useEffect(() => {
     if (!dbReady) return;
