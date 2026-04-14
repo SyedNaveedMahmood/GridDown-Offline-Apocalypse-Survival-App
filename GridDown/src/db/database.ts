@@ -1145,6 +1145,10 @@ export async function searchFungi(query: string): Promise<Fungi[]> {
   );
 }
 
+export async function getFungi(id: number): Promise<Fungi | null> {
+  return await db.getFirstAsync<Fungi>('SELECT * FROM fungi WHERE id = ?', [id]);
+}
+
 export async function searchConditions(query: string): Promise<Condition[]> {
   const q = `%${query}%`;
   return await db.getAllAsync<Condition>(

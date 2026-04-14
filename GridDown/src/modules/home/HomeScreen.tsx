@@ -9,7 +9,7 @@ import SunCalc from 'suncalc';
 import { getRecentlyViewed, getFavorites, searchPlants, RecentItem } from '../../db/database';
 import { useAppStore } from '../../store/useAppStore';
 import { Colors } from '../../theme/colors';
-import { Fonts, FontSize } from '../../theme/typography';
+import { Fonts } from '../../theme/typography';
 import { SectionHeader } from '../../components/SectionHeader';
 import { OfflineStatusBar } from '../../components/OfflineStatusBar';
 import * as FileSystem from 'expo-file-system';
@@ -46,6 +46,7 @@ export function HomeScreen() {
   const nav = useNavigation<any>();
   const { gpsCoords, gpsAcquired, dbReady } = useAppStore();
   const [recentItems, setRecentItems] = useState<RecentItem[]>([]);
+  const [favorites, setFavorites] = useState<{ name: string; type: string }[]>([]);
   const [pressure, setPressure] = useState<number | null>(null);
   const [prevPressure, setPrevPressure] = useState<number | null>(null);
   const [wikiDownloaded, setWikiDownloaded] = useState(false);
@@ -62,6 +63,15 @@ export function HomeScreen() {
     if (!dbReady) return;
     getRecentlyViewed(6).then(setRecentItems);
     searchPlants('', undefined, undefined).then((p) => setPlantCount(p.length));
+    getFavorites().then((favs) => {
+      const all: { name: string; type: string }[] = [
+        ...favs.plants.map((p) => ({ name: p.common_name, type: 'Plant' })),
+        ...favs.fungi.map((f) => ({ name: f.common_name, type: 'Fungi' })),
+        ...favs.conditions.map((c) => ({ name: c.name, type: 'Medical' })),
+        ...favs.procedures.map((p) => ({ name: p.name, type: 'Procedure' })),
+      ];
+      setFavorites(all.slice(0, 10));
+    });
   }, [dbReady]);
 
   useEffect(() => {
@@ -136,6 +146,14 @@ export function HomeScreen() {
             <Text style={styles.condLabel}>BEST FORAGE</Text>
             <Text style={styles.condValueSmall}>{SEASON_FORAGE[season]}</Text>
           </View>
+          <View style={styles.condRow}>
+            <Text style={styles.condLabel}>SUNRISE</Text>
+            <Text style={styles.condValue}>{sunriseStr}</Text>
+          </View>
+          <View style={styles.condRow}>
+            <Text style={styles.condLabel}>SUNSET</Text>
+            <Text style={styles.condValue}>{sunsetStr}</Text>
+          </View>
         </View>
 
         {/* Recently viewed */}
@@ -153,6 +171,26 @@ export function HomeScreen() {
                   <Text style={styles.recentType}>{item.item_type.toUpperCase()}</Text>
                   <Text style={styles.recentName} numberOfLines={2}>{item.item_name}</Text>
                 </TouchableOpacity>
+              )}
+            />
+          </>
+        )}
+
+        {/* Favorites */}
+        {favorites.length > 0 && (
+          <>
+            <SectionHeader title="SAVED REFERENCES" />
+            <FlatList
+              horizontal
+              data={favorites}
+              keyExtractor={(item, index) => `fav-${index}`}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentContent}
+              renderItem={({ item }) => (
+                <View style={styles.recentChip}>
+                  <Text style={styles.recentType}>{item.type.toUpperCase()}</Text>
+                  <Text style={styles.recentName} numberOfLines={2}>{item.name}</Text>
+                </View>
               )}
             />
           </>
