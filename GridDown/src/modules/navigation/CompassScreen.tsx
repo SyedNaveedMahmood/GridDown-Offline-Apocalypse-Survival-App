@@ -36,14 +36,17 @@ export function CompassScreen() {
   const lastHeadingRef = useRef(0);
 
   useEffect(() => {
-    Magnetometer.setUpdateInterval(100);
-    const sub = Magnetometer.addListener(({ x, y }) => {
-      let angle = Math.atan2(y, x) * (180 / Math.PI);
-      if (angle < 0) angle += 360;
-      angle = (360 - angle) % 360;
-      setHeading(Math.round(angle));
-    });
-    return () => sub.remove();
+    let sub: any = null;
+    try {
+      Magnetometer.setUpdateInterval(100);
+      sub = Magnetometer.addListener(({ x, y }: { x: number; y: number }) => {
+        let angle = Math.atan2(y, x) * (180 / Math.PI);
+        if (angle < 0) angle += 360;
+        angle = (360 - angle) % 360;
+        setHeading(Math.round(angle));
+      });
+    } catch {}
+    return () => { try { sub?.remove(); } catch {} };
   }, []);
 
   useEffect(() => {

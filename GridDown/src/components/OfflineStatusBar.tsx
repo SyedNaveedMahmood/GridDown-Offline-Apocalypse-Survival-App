@@ -1,17 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Animated, StyleSheet } from 'react-native';
-import * as Location from 'expo-location';
-import * as Battery from 'expo-battery';
 import { Colors } from '../theme/colors';
 import { Fonts } from '../theme/typography';
 import { useAppStore } from '../store/useAppStore';
+
+// Lazy-load native modules so a missing/broken module doesn't crash the app
+let Location: typeof import('expo-location') | null = null;
+let Battery: typeof import('expo-battery') | null = null;
+try { Location = require('expo-location'); } catch {}
+try { Battery = require('expo-battery'); } catch {}
 
 export function OfflineStatusBar() {
   const { gpsCoords, gpsAcquired, setGPSCoords, batteryLevel, setBatteryLevel } = useAppStore();
   const blinkAnim = useRef(new Animated.Value(1)).current;
 
+  // Blinking [OFFLINE] badge
   useEffect(() => {
-    // Start blinking animation
     const blink = Animated.loop(
       Animated.sequence([
         Animated.timing(blinkAnim, { toValue: 0.4, duration: 1500, useNativeDriver: true }),
@@ -22,15 +26,16 @@ export function OfflineStatusBar() {
     return () => blink.stop();
   }, [blinkAnim]);
 
+  // GPS
   useEffect(() => {
-    let subscription: Location.LocationSubscription | null = null;
+    if (!Location) return;
+    let subscription: any = null;
 
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') return;
-
-      // Get initial fix
       try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') return;
+
         const loc = await Location.getCurrentPositionAsync({
           accuracy: Location.Accuracy.Balanced,
         });
@@ -40,33 +45,45 @@ export function OfflineStatusBar() {
           altitude: loc.coords.altitude,
           accuracy: loc.coords.accuracy,
         });
-      } catch {}
 
-      // Poll every 30 seconds
-      subscription = await Location.watchPositionAsync(
-        { accuracy: Location.Accuracy.Balanced, timeInterval: 30000, distanceInterval: 10 },
-        (loc) => {
-          setGPSCoords({
-            lat: loc.coords.latitude,
-            lng: loc.coords.longitude,
-            altitude: loc.coords.altitude,
-            accuracy: loc.coords.accuracy,
-          });
-        }
-      );
+        subscription = await Location.watchPositionAsync(
+          { accuracy: Location.Accuracy.Balanced, timeInterval: 30000, distanceInterval: 10 },
+          (loc) => {
+            setGPSCoords({
+              lat: loc.coords.latitude,
+              lng: loc.coords.longitude,
+              altitude: loc.coords.altitude,
+              accuracy: loc.coords.accuracy,
+            });
+          }
+        );
+      } catch {
+        // GPS not available — silent fail, status bar shows '-- acquiring GPS --'
+      }
     })();
 
-    return () => {
-      subscription?.remove();
-    };
+    return () => { try { subscription?.remove(); } catch {} };
   }, [setGPSCoords]);
 
+  // Battery
   useEffect(() => {
-    Battery.getBatteryLevelAsync().then((level) => setBatteryLevel(level));
-    const sub = Battery.addBatteryLevelListener(({ batteryLevel: level }) => {
-      setBatteryLevel(level);
-    });
-    return () => sub.remove();
+    if (!Battery) return;
+    let sub: any = null;
+
+    (async () => {
+      try {
+        const level = await Battery.getBatteryLevelAsync();
+        if (typeof level === 'number') setBatteryLevel(level);
+      } catch {}
+
+      try {
+        sub = Battery.addBatteryLevelListener(({ batteryLevel: level }: { batteryLevel: number }) => {
+          if (typeof level === 'number') setBatteryLevel(level);
+        });
+      } catch {}
+    })();
+
+    return () => { try { sub?.remove(); } catch {} };
   }, [setBatteryLevel]);
 
   const formatCoords = () => {
@@ -113,14 +130,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
   },
-  mono: {
-    fontFamily: Fonts.mono,
-    fontSize: 11,
-    color: Colors.textMuted,
-  },
-  coords: {
-    flex: 1,
-  },
+  mono: { fontFamily: Fonts.mono, fontSize: 11, color: Colors.textMuted },
+  coords: { flex: 1 },
   badge: {
     flex: 0,
     borderWidth: 1,
@@ -130,13 +141,6 @@ const styles = StyleSheet.create({
     paddingVertical: 1,
     marginHorizontal: 8,
   },
-  badgeText: {
-    fontFamily: Fonts.mono,
-    fontSize: 10,
-    color: Colors.accent,
-  },
-  battery: {
-    flex: 1,
-    textAlign: 'right',
-  },
+  badgeText: { fontFamily: Fonts.mono, fontSize: 10, color: Colors.accent },
+  battery: { flex: 1, textAlign: 'right' },
 });

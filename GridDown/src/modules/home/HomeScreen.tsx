@@ -81,13 +81,16 @@ export function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    const sub = Barometer.addListener(({ pressure: p }) => {
-      if (!p) return;
-      setPrevPressure((prev) => prev ?? p);
-      setPressure(p);
-    });
-    Barometer.setUpdateInterval(60000);
-    return () => sub.remove();
+    let sub: any = null;
+    try {
+      Barometer.setUpdateInterval(60000);
+      sub = Barometer.addListener(({ pressure: p }) => {
+        if (!p) return;
+        setPrevPressure((prev) => prev ?? p);
+        setPressure(p);
+      });
+    } catch {}
+    return () => { try { sub?.remove(); } catch {} };
   }, []);
 
   const pressureTrend = pressure && prevPressure

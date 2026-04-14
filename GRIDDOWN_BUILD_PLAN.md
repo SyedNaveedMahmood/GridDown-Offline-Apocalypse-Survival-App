@@ -1,3 +1,7 @@
+
+
+
+
 # GridDown — Offline Apocalypse Survival App
 ## Complete Claude Code Build Plan
 

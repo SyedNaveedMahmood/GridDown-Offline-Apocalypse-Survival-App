@@ -39,16 +39,19 @@ export function WeatherScreen() {
   const [history, setHistory] = useState<{ time: number; pressure: number }[]>([]);
 
   useEffect(() => {
-    Barometer.setUpdateInterval(30000);
-    const sub = Barometer.addListener(({ pressure: p }) => {
-      if (!p) return;
-      setPressure(Math.round(p * 10) / 10);
-      setHistory((prev) => {
-        const next = [...prev, { time: Date.now(), pressure: p }];
-        return next.slice(-6); // Keep 3 hours at 30-min intervals
+    let sub: any = null;
+    try {
+      Barometer.setUpdateInterval(30000);
+      sub = Barometer.addListener(({ pressure: p }) => {
+        if (!p) return;
+        setPressure(Math.round(p * 10) / 10);
+        setHistory((prev) => {
+          const next = [...prev, { time: Date.now(), pressure: p }];
+          return next.slice(-6);
+        });
       });
-    });
-    return () => sub.remove();
+    } catch {}
+    return () => { try { sub?.remove(); } catch {} };
   }, []);
 
   const trend = history.length >= 2
