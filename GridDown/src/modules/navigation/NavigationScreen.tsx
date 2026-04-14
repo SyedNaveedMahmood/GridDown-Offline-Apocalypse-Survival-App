@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import {
   View, Text, TouchableOpacity, Modal, TextInput,
-  StyleSheet, SafeAreaView, Alert,
+  StyleSheet, SafeAreaView, Alert, ScrollView,
 } from 'react-native';
-import MapView, { Marker, Polyline, UrlTile } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import * as Haptics from 'expo-haptics';
@@ -54,20 +53,6 @@ export function NavigationScreen() {
     const updated = await getWaypoints();
     setWaypoints(updated);
   }, [gpsCoords, wpName, wpNotes]);
-
-  const region = gpsCoords
-    ? {
-        latitude: gpsCoords.lat,
-        longitude: gpsCoords.lng,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-      }
-    : {
-        latitude: 37.0902,
-        longitude: -95.7129,
-        latitudeDelta: 30,
-        longitudeDelta: 30,
-      };
 
   const coordText = gpsCoords
     ? formatCoordinates(gpsCoords.lat, gpsCoords.lng, coordFormat)
@@ -123,32 +108,40 @@ export function NavigationScreen() {
         </View>
       </View>
 
-      {/* Map — 65% */}
-      <MapView
-        style={styles.map}
-        region={region}
-        showsUserLocation={!!gpsCoords}
-        showsMyLocationButton={false}
-        mapType="terrain"
-        rotateEnabled={false}
-      >
-        {waypoints.map((wp) => (
-          <Marker
-            key={wp.id}
-            coordinate={{ latitude: wp.lat, longitude: wp.lng }}
-            title={wp.name}
-            description={wp.notes}
-            pinColor={Colors.accent}
-          />
-        ))}
-        {trackedPath.length > 1 && (
-          <Polyline
-            coordinates={trackedPath.map((p) => ({ latitude: p.lat, longitude: p.lng }))}
-            strokeColor={Colors.accent}
-            strokeWidth={3}
-          />
+      {/* Map panel — 65% */}
+      <View style={styles.map}>
+        <View style={styles.mapPlaceholder}>
+          <Text style={styles.mapPlaceholderIcon}>🗺</Text>
+          <Text style={styles.mapPlaceholderTitle}>OFFLINE MAP</Text>
+          <Text style={styles.mapPlaceholderText}>
+            Map display requires a development build.{'\n'}
+            GPS coordinates, compass, and waypoints are fully functional.
+          </Text>
+        </View>
+
+        {/* Waypoints list inside map panel */}
+        {waypoints.length > 0 && (
+          <View style={styles.wpList}>
+            <Text style={styles.wpListTitle}>SAVED WAYPOINTS</Text>
+            <ScrollView style={{ maxHeight: 160 }}>
+              {waypoints.map((wp) => (
+                <View key={wp.id} style={styles.wpRow}>
+                  <Text style={styles.wpName}>{wp.name}</Text>
+                  <Text style={styles.wpCoords}>
+                    {wp.lat.toFixed(4)}°, {wp.lng.toFixed(4)}°
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
         )}
-      </MapView>
+
+        {isTracking && trackedPath.length > 0 && (
+          <View style={styles.trackingBadge}>
+            <Text style={styles.trackingText}>● TRACKING — {trackedPath.length} points</Text>
+          </View>
+        )}
+      </View>
 
       {/* Save Waypoint Modal */}
       <Modal visible={showSaveModal} animationType="slide" transparent presentationStyle="overFullScreen">
@@ -229,7 +222,60 @@ const styles = StyleSheet.create({
   btnActive: { backgroundColor: Colors.accent, borderColor: Colors.accent },
   btnText: { fontFamily: Fonts.mono, fontSize: 10, color: Colors.text, letterSpacing: 0.5 },
   btnTextActive: { color: Colors.bg },
-  map: { flex: 1 },
+  map: {
+    flex: 1,
+    backgroundColor: Colors.surface,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.border,
+  },
+  mapPlaceholder: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 32,
+    paddingHorizontal: 24,
+  },
+  mapPlaceholderIcon: { fontSize: 48, marginBottom: 12 },
+  mapPlaceholderTitle: {
+    fontFamily: Fonts.mono,
+    fontSize: 13,
+    color: Colors.textMuted,
+    letterSpacing: 2,
+    marginBottom: 10,
+  },
+  mapPlaceholderText: {
+    fontFamily: Fonts.bodyReg,
+    fontSize: 13,
+    color: Colors.textDim,
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  wpList: {
+    marginHorizontal: 12,
+    marginTop: 8,
+    backgroundColor: Colors.surfaceAlt,
+    borderLeftWidth: 2,
+    borderLeftColor: Colors.accent,
+    padding: 12,
+  },
+  wpListTitle: {
+    fontFamily: Fonts.mono,
+    fontSize: 10,
+    color: Colors.gold,
+    letterSpacing: 2,
+    marginBottom: 8,
+  },
+  wpRow: { paddingVertical: 6, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.border },
+  wpName: { fontFamily: Fonts.bodyBold, fontSize: 14, color: Colors.text },
+  wpCoords: { fontFamily: Fonts.mono, fontSize: 11, color: Colors.textMuted, marginTop: 2 },
+  trackingBadge: {
+    margin: 12,
+    backgroundColor: '#1A3A1A',
+    borderWidth: 1,
+    borderColor: Colors.accent,
+    padding: 8,
+    alignItems: 'center',
+  },
+  trackingText: { fontFamily: Fonts.mono, fontSize: 11, color: Colors.accent, letterSpacing: 1 },
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.6)',
