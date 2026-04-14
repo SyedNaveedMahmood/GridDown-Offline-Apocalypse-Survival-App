@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import { getPlant, searchFungi, toggleFavorite, addRecentlyViewed, Plant, Fungi } from '../../db/database';
+import { getPlant, getFungi, toggleFavorite, addRecentlyViewed, Plant, Fungi } from '../../db/database';
 import { Colors } from '../../theme/colors';
 import { Fonts, FontSize } from '../../theme/typography';
 import { SectionHeader } from '../../components/SectionHeader';
@@ -31,8 +31,7 @@ export function PlantDetailScreen() {
         const p = await getPlant(params.id);
         if (p) loaded = { ...p, _type: 'plant' };
       } else {
-        const fungi = await searchFungi('');
-        const f = fungi.find((x) => x.id === params.id);
+        const f = await getFungi(params.id);
         if (f) loaded = { ...f, _type: 'fungi' };
       }
       if (loaded) {
